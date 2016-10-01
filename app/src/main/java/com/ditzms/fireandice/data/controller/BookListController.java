@@ -86,7 +86,7 @@ public class BookListController implements IBookListController {
         return mRepository.getList();
     }
 
-    private List<Book> fetchFromDb() {
+    private List<Book> fetchFromDb() throws SQLiteException {
         return Book.listAll(Book.class);
     }
 
