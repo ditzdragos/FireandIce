@@ -1,5 +1,6 @@
 package com.ditzms.fireandice.data.controller;
 
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.ditzms.fireandice.application.MyApplication;
@@ -53,12 +54,17 @@ public class BookListController implements IBookListController {
         }
 
 
-        bookList = fetchFromDb();
+        try {
+            bookList = fetchFromDb();
 
-        if (!bookList.isEmpty()) {
-            Log.d(TAG, "getBooks: FROM DATABASE");
-            listener.onResponse(bookList);
-            return;
+            if (!bookList.isEmpty()) {
+                Log.d(TAG, "getBooks: FROM DATABASE");
+                listener.onResponse(bookList);
+                return;
+            }
+
+        } catch (SQLiteException ex) {
+            Log.e(TAG, "getBooks: ",ex );
         }
 
         fetchFromServer(listener);
